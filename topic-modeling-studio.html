@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic Modeling Studio — Zyad Shehata</title>
+<style>
+  :root{
+    --bg:#0B1220;
+    --bg-elev:#121B2E;
+    --bg-elev-2:#17223A;
+    --line:#253147;
+    --text:#EDEAE3;
+    --muted:#8B96A8;
+    --teal:#4DD8C4;
+    --amber:#E8A33D;
+    --mono: ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    padding:60px 0;
+  }
+  
+  .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+  
+  /* Back Button */
+  .back-link {
+    font-family: var(--mono);
+    color: var(--muted);
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 40px;
+    text-decoration: none;
+    transition: color 0.2s;
+    cursor: pointer;
+  }
+  .back-link:hover { color: var(--teal); }
+
+  /* Header */
+  .project-idx { font-family: var(--mono); color: var(--teal); font-size: 14px; }
+  .project-title { font-family: var(--mono); font-size: clamp(32px, 5vw, 48px); font-weight: 700; margin: 8px 0 20px; }
+  
+  .tags { display: flex; gap: 8px; margin-bottom: 32px; }
+  .tag {
+    font-family: var(--mono); font-size: 12px; color: var(--teal);
+    background: rgba(77,216,196,0.08); padding: 6px 12px; border-radius: 2px;
+  }
+
+  .project-desc { color: var(--muted); font-size: 17px; margin-bottom: 48px; max-width: 760px; }
+  
+  /* Section Headings */
+  .section-title {
+    font-family: var(--mono); font-size: 14px; color: var(--amber);
+    letter-spacing: 1.5px; margin: 56px 0 20px; text-transform: uppercase;
+    border-bottom: 1px solid var(--line); padding-bottom: 8px;
+  }
+
+  /* Top-to-Bottom Sequence Stack */
+  .media-stack { display: flex; flex-direction: column; gap: 40px; }
+  
+  .showcase-img {
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+    border: 1px solid var(--line);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
+
+  /* Secure Placeholder for Demo */
+  .demo-container-box {
+    background: var(--bg-elev);
+    border: 1px dashed var(--line);
+    padding: 40px;
+    border-radius: 6px;
+    text-align: center;
+  }
+  .btn-demo {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--bg);
+    background: var(--teal);
+    padding: 12px 24px;
+    border-radius: 3px;
+    font-weight: 600;
+    margin-top: 16px;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .btn-demo:hover { background: #63e6d4; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Safer browser close pattern without inline JavaScript protocols -->
+  <a onclick="history.back()" class="back-link">← Go Back to Portfolio</a>
+
+  <header>
+    <div class="project-idx">_02</div>
+    <h1 class="project-title">Topic Modeling Studio</h1>
+    <div class="tags">
+      <span class="tag">BERTopic</span>
+      <span class="tag">React</span>
+      <span class="tag">Plotly</span>
+    </div>
+    <p class="project-desc">
+      Configurable BERTopic pipelines with customizable embedding models, UMAP, HDBSCAN, and interactive Plotly dashboards for business users, data scientists, and researchers.
+      <br><br>
+      This studio streamlines the end-to-end NLP discovery process. It enables dynamic hyperparameter tweaking directly on data clusters, accelerating thematic extractions over huge document collections and exporting insights seamlessly.
+    </p>
+
+    <!-- NEW: GitHub Repository Link Button -->
+    <a href="https://github.com/zyad-moh/topic-modeling-studio" target="_blank" rel="noopener" class="btn-demo" style="margin-top: 0; display: inline-flex; align-items: center; gap: 8px;">
+      View Repository on GitHub ↗
+    </a>
+  </header>
+
+  <main class="media-stack">
+    
+    <!-- SECTION 1: SCREENSHOTS IN VERTICAL SEQUENCE -->
+    <div class="section-title">Project Interface Gallery</div>
+    
+    <img class="showcase-img" src="assets/signup.png" alt="Pipeline Configurator Panel Interface Preview">
+    <img class="showcase-img" src="assets/nlp.png" alt="Interactive Intertopic Distance Matrix Projection">
+    <img class="showcase-img" src="assets/ds.png" alt="Interactive Intertopic Distance Matrix Projection">
+
+    <!-- SECTION 2: LIVE DEMO CALL TO ACTION -->
+    <div class="section-title">Live Preview Demo Walkthrough</div>
+
+<div class="demo-container-box" style="padding: 0; overflow: hidden; background: transparent; border: none;">
+  <!-- Modern video player rendering the local mp4 asset -->
+  <video 
+    controls 
+    preload="metadata"
+    style="width: 100%; height: auto; display: block; border-radius: 6px; border: 1px solid var(--line); box-shadow: 0 10px 30px rgba(0,0,0,0.3);"
+  >
+    <source src="assets/Video Project 5.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+</div>
+  </main>
+</div>
+
+</body>
+</html>

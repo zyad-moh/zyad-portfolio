@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLM Fine-Tuning Experiments — Zyad Shehata</title>
+<style>
+  :root{
+    --bg:#0B1220;
+    --bg-elev:#121B2E;
+    --bg-elev-2:#17223A;
+    --line:#253147;
+    --text:#EDEAE3;
+    --muted:#8B96A8;
+    --teal:#4DD8C4;
+    --amber:#E8A33D;
+    --mono: ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    padding:60px 0;
+  }
+  
+  .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+  
+  .back-link {
+    font-family: var(--mono);
+    color: var(--muted);
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 40px;
+    text-decoration: none;
+    transition: color 0.2s;
+    cursor: pointer;
+  }
+  .back-link:hover { color: var(--teal); }
+
+  .project-idx { font-family: var(--mono); color: var(--teal); font-size: 14px; }
+  .project-title { font-family: var(--mono); font-size: clamp(32px, 5vw, 48px); font-weight: 700; margin: 8px 0 20px; }
+  
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+  .tag {
+    font-family: var(--mono); font-size: 12px; color: var(--teal);
+    background: rgba(77,216,196,0.08); padding: 6px 12px; border-radius: 2px;
+  }
+
+  .project-desc { color: var(--muted); font-size: 17px; margin-bottom: 40px; max-width: 760px; }
+  
+  .section-title {
+    font-family: var(--mono); font-size: 14px; color: var(--amber);
+    letter-spacing: 1.5px; margin: 56px 0 20px; text-transform: uppercase;
+    border-bottom: 1px solid var(--line); padding-bottom: 8px;
+  }
+
+  .feature-list { display: flex; flex-direction: column; gap: 16px; margin-bottom: 48px; }
+  .feature-item {
+    padding: 20px; background: var(--bg-elev); border: 1px solid var(--line); border-radius: 6px;
+    display: flex; gap: 16px; align-items: flex-start;
+  }
+  .feature-dot { font-family: var(--mono); color: var(--teal); font-size: 14px; font-weight: bold; }
+  .feature-text { font-size: 15px; color: var(--text); }
+  .feature-text strong { color: var(--teal); font-weight: 600; }
+
+  /* Architecture & Parameters Table */
+  table { width: 100%; border-collapse: collapse; margin: 20px 0; background: var(--bg-elev); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+  th, td { padding: 12px 16px; text-align: left; font-size: 14px; border-bottom: 1px solid var(--line); }
+  th { background: var(--bg-elev-2); font-family: var(--mono); color: var(--amber); font-weight: normal; }
+  td { font-family: var(--sans); }
+  td.mono-cell { font-family: var(--mono); color: var(--teal); }
+
+  .media-stack { display: flex; flex-direction: column; gap: 40px; }
+  .showcase-img { width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--line); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+
+  .btn-demo {
+    display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 14px;
+    color: var(--bg); background: var(--teal); padding: 12px 24px; border-radius: 3px;
+    font-weight: 600; text-decoration: none; transition: background 0.2s;
+  }
+  .btn-demo:hover { background: #63e6d4; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <a onclick="history.back()" class="back-link">← Go Back to Portfolio</a>
+
+  <header>
+    <div class="project-idx">_06</div>
+    <h1 class="project-title">LLM Fine-Tuning Experiments</h1>
+    <div class="tags">
+      <span class="tag">PEFT</span>
+      <span class="tag">LoRA</span>
+      <span class="tag">QLoRA</span>
+      <span class="tag">Weights &amp; Biases</span>
+      <span class="tag">Hugging Face</span>
+      <span class="tag">PyTorch</span>
+    </div>
+    <p class="project-desc">
+      A comprehensive deep-dive into Parameter-Efficient Fine-Tuning (PEFT) implementations. This repository tracks optimization strategies across diverse base models, comparing hyperparameter adjustments, quantization scales, and comparative loss profiles.
+    </p>
+
+    <a href="https://github.com/zyad-moh" target="_blank" rel="noopener" class="btn-demo">
+      View Experiment Notebooks ↗
+    </a>
+  </header>
+
+  <main>
+    <div class="section-title">Technical Pipeline Highlights</div>
+    
+    <div class="feature-list">
+      <div class="feature-item">
+        <span class="feature-dot">▸</span>
+        <span class="feature-text"><strong>Parameter-Efficient Adaption:</strong> Configured LoRA matrices targeting specific linear attention projections (`q_proj`, `v_proj`) to cut down trainable weight configurations drastically while protecting baseline language alignment.</span>
+      </div>
+      <div class="feature-item">
+        <span class="feature-dot">▸</span>
+        <span class="feature-text"><strong>4-Bit QLoRA Quantization:</strong> Integrated BitsAndBytes structures utilizing `NF4` data quantization alongside double-quantization steps to make modern LLM training highly feasible on standard commercial hardware.</span>
+      </div>
+      <div class="feature-item">
+        <span class="feature-dot">▸</span>
+        <span class="feature-text"><strong>Weights &amp; Biases Telemetry:</strong> Bound Hugging Face training callbacks directly to customized W&amp;B spaces to cleanly observe validation loss shifts, learning rate curves, and system compute load maps.</span>
+      </div>
+      <div class="feature-item">
+        <span class="feature-dot">▸</span>
+        <span class="feature-text"><strong>Gradient Management Profiles:</strong> Optimized execution loops through dynamic gradient accumulation steps and mixed-precision modes (`fp16`/`bf16`) to maximize memory utilization efficiency.</span>
+      </div>
+    </div>
+
+
+
+    <div class="media-stack">
+      <!-- MLOPS DASHBOARD DEMO -->
+      <div class="section-title">Weights &amp; Biases Run Tracking</div>
+      <div class="telemetry-card" style="margin-bottom: 20px;">
+        <img class="showcase-img" src="assets/9.png" alt="Weights and Biases Training Convergence Loss Curves">
+        <p style="color: var(--muted); font-size: 14px; margin-top: 10px; font-family: var(--sans);">
+          <strong>Figure 1: W&amp;B Training Run Diagnostics.</strong> Displays real-time training telemetry tracking stable loss convergence down to ~0.3, a managed learning rate scheduler curve with proper warmup, and controlled gradient norms over 600 global training steps.
+        </p>
+      </div>
+      
+      <!-- EVALUATION HARDWARE TELEMETRY -->
+      <div class="section-title">Model Serving Load Tests</div>
+      <div class="telemetry-card" style="margin-bottom: 20px;">
+        <img class="showcase-img" src="assets/10.png" alt="Fine-Tuned Model Serving Load Profiles">
+        <p style="color: var(--muted); font-size: 14px; margin-top: 10px; font-family: var(--sans);">
+          <strong>Figure 2: Serving Endpoint Stress Testing.</strong> Profiles the fine-tuned model container under concurrent user loads via automated request generation, mapping structural response latencies (50th and 95th percentiles) alongside request-per-second performance.
+        </p>
+      </div>
+    </div>
+
+</body>
+</html>

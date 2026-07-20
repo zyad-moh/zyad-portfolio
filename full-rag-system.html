@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Full RAG System — Zyad Shehata</title>
+<style>
+  :root{
+    --bg:#0B1220;
+    --bg-elev:#121B2E;
+    --bg-elev-2:#17223A;
+    --line:#253147;
+    --text:#EDEAE3;
+    --muted:#8B96A8;
+    --teal:#4DD8C4;
+    --amber:#E8A33D;
+    --mono: ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    padding:60px 0;
+  }
+  
+  .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+  
+  .back-link {
+    font-family: var(--mono);
+    color: var(--muted);
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 40px;
+    text-decoration: none;
+    transition: color 0.2s;
+    cursor: pointer;
+  }
+  .back-link:hover { color: var(--teal); }
+
+  .project-idx { font-family: var(--mono); color: var(--teal); font-size: 14px; }
+  .project-title { font-family: var(--mono); font-size: clamp(32px, 5vw, 48px); font-weight: 700; margin: 8px 0 20px; }
+  
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+  .tag {
+    font-family: var(--mono); font-size: 12px; color: var(--teal);
+    background: rgba(77,216,196,0.08); padding: 6px 12px; border-radius: 2px;
+  }
+
+  .project-desc { color: var(--muted); font-size: 17px; margin-bottom: 40px; max-width: 760px; }
+  
+  .section-title {
+    font-family: var(--mono); font-size: 14px; color: var(--amber);
+    letter-spacing: 1.5px; margin: 56px 0 20px; text-transform: uppercase;
+    border-bottom: 1px solid var(--line); padding-bottom: 8px;
+  }
+
+  .feature-list { display: flex; flex-direction: column; gap: 16px; margin-bottom: 48px; }
+  .feature-item {
+    padding: 20px; background: var(--bg-elev); border: 1px solid var(--line); border-radius: 6px;
+    display: flex; gap: 16px; align-items: flex-start;
+  }
+  .feature-dot { font-family: var(--mono); color: var(--teal); font-size: 14px; font-weight: bold; }
+  .feature-text { font-size: 15px; color: var(--text); }
+  .feature-text strong { color: var(--teal); font-weight: 600; }
+
+  .media-stack { display: flex; flex-direction: column; gap: 40px; }
+  
+  .showcase-img {
+    width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--line);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
+
+  .btn-demo {
+    display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 14px;
+    color: var(--bg); background: var(--teal); padding: 12px 24px; border-radius: 3px;
+    font-weight: 600; text-decoration: none; transition: background 0.2s;
+  }
+  .btn-demo:hover { background: #63e6d4; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <a onclick="history.back()" class="back-link">← Go Back to Portfolio</a>
+
+  <header>
+    <div class="project-idx">_01</div>
+    <h1 class="project-title">Full RAG System</h1>
+    <div class="tags">
+      <span class="tag">LangChain</span>
+      <span class="tag">FastAPI</span>
+      <span class="tag">MongoDB</span>
+      <span class="tag">PostgreSQL</span>
+      <span class="tag">Qdrant</span>
+      <span class="tag">pgvector</span>
+      <span class="tag">Docker</span>
+      <span class="tag">nginx</span>
+      <span class="tag">grafana</span>
+      <span class="tag">prometheus</span>
+      <span class="tag">node-exporter</span>
+    </div>
+    <p class="project-desc">
+      Production-ready Retrieval-Augmented Generation system with document ingestion, embedding generation, vector search, and conversational retrieval — Dockerized end to end.
+      <br><br>
+      This infrastructure processes unstructured documents, chunks and indexes them optimally, and pairs them with high-accuracy contextual generation layers to prevent hallucination in conversation.
+    </p>
+
+    <!-- Update with your actual GitHub project link -->
+    <a href="https://github.com/zyad-moh/RAG" target="_blank" rel="noopener" class="btn-demo">
+      View Repository on GitHub ↗
+    </a>
+  </header>
+
+  <main>
+    <div class="section-title">Technical Architecture Highlights</div>
+    
+    <div class="feature-list">
+      <div class="feature-item">
+        <span class="feature-dot">▸</span>
+        <span class="feature-text"><strong>Document Ingestion Pipeline:</strong> Automated parsing and structural ingestion of complex multi-format documents (PDFs, TXT, Markdown) with smart metadata tracking.</span>
+      </div>
+      <div class="feature-item">
+        <span class="feature-dot">▸</span>
+        <span class="feature-text"><strong>Vector Indexing Layout:</strong> Generates chunked token fragments using specialized sentence-transformers, querying against a containerized <strong>Qdrant</strong> database instance with custom payload filtering.</span>
+      </div>
+      <div class="feature-item">
+        <span class="feature-dot">▸</span>
+        <span class="feature-text"><strong>Conversational Chain Engine:</strong> Written with <strong>LangChain</strong> to preserve relative conversation memory buffers while executing low-latency contextual semantic searches.</span>
+      </div>
+      <div class="feature-item">
+        <span class="feature-dot">▸</span>
+        <span class="feature-text"><strong>Containerized Ecosystem:</strong> Fully scalable container architecture managed through orchestration-ready configuration boundaries, linking backends with vector instances natively.</span>
+      </div>
+      <div class="feature-item">
+    <span class="feature-dot">▸</span>
+    <span class="feature-text"><strong>Multi-Provider Provider Factory:</strong> Implemented a clean Factory Design Pattern (`LLMProviderFactory`) to dynamically abstract and instantiate modular runtime clients for OpenAI, Cohere, and Groq based on systemic environment variables.</span>
+  </div>
+
+  <div class="feature-item">
+    <span class="feature-dot">▸</span>
+    <span class="feature-text"><strong>Hybrid Vector Storage Topology:</strong> Deployed a dual-vector storage cluster combining <strong>Qdrant</strong> (for standalone payload retrieval chains) and <strong>PGVector</strong> (for transactional relational data maps), optimizing spatial filtering across distinct database indexes.</span>
+  </div>
+
+  <div class="feature-item">
+    <span class="feature-dot">▸</span>
+    <span class="feature-text"><strong>Observability &amp; Metrics Stack:</strong> Integrated an enterprise telemetry loop using <strong>Prometheus</strong> and <strong>Node-Exporter</strong> to continuously pull runtime system, memory, and disk health metrics from the host architecture.</span>
+  </div>
+
+  <div class="feature-item">
+    <span class="feature-dot">▸</span>
+    <span class="feature-text"><strong>Real-time Analytical Dashboards:</strong> Connected data metric endpoints to centralized <strong>Grafana</strong> visualization interfaces, providing immediate tracking of database processing latencies and FastAPI response times.</span>
+  </div>
+
+  <div class="feature-item">
+    <span class="feature-dot">▸</span>
+    <span class="feature-text"><strong>Production Infrastructure Orchestration:</strong> Engineered a robust multi-container microservices layout via <strong>Docker Compose</strong>, featuring decoupled sub-networks, isolated volumes, persistent data storage directories, and automated health check health loops for fault tolerance.</span>
+  </div>
+    </div>
+
+    <div class="media-stack">
+    <!-- SECTION 3: SYSTEM OBSERVABILITY & TELEMETRY GALLERIES -->
+<div class="section-title">Production Monitoring &amp; Metrics Telemetry</div>
+
+<div class="media-stack">
+
+  <!-- Image 1: FastAPI Observability Main View -->
+  <div class="telemetry-card" style="margin-bottom: 20px;">
+    <img class="showcase-img" src="assets/fastapi-observability-main.png" alt="FastAPI Application Observability Dashboard">
+    <p style="color: var(--muted); font-size: 14px; margin-top: 10px; font-family: var(--sans);">
+      <strong>Figure 1: FastAPI Core Metrics Dashboard.</strong> Tracks HTTP traffic volume directly with a clean breakdown of request counts (GET vs. POST methods), success rates via a 100% 2xx status code baseline, and low request duration spikes averaging around 5.67 ms.
+    </p>
+  </div>
+
+  <!-- Image 2: Request Performance Deep-dive -->
+  <div class="telemetry-card" style="margin-bottom: 20px;">
+    <img class="showcase-img" src="assets/request-performance-metrics.png" alt="HTTP Request Performance and Rate Analysis">
+    <p style="color: var(--muted); font-size: 14px; margin-top: 10px; font-family: var(--sans);">
+      <strong>Figure 2: Real-time API Load Profiling.</strong> Provides a fine-grained deep-dive into application request density per second alongside a percentile tracking panel (PR 99 Requests Duration), used to spot network bottlenecks and maintain a stable request-per-second baseline under traffic loads.
+    </p>
+  </div>
+
+  <!-- Image 3: Node Exporter Full View -->
+  <div class="telemetry-card" style="margin-bottom: 20px;">
+    <img class="showcase-img" src="assets/node-exporter-system.png" alt="Prometheus Node Exporter System Health Metrics">
+    <p style="color: var(--muted); font-size: 14px; margin-top: 10px; font-family: var(--sans);">
+      <strong>Figure 3: Node-Exporter Host System Telemetry.</strong> Displays comprehensive machine health metrics scraped by Prometheus, showing historical hardware profiles for infrastructure stability: real-time CPU usage, system core loads, and detailed RAM/Swap memory buffer consumption tracking.
+    </p>
+  </div>
+
+  <!-- Image 4: PostgreSQL Exporter View -->
+  <div class="telemetry-card" style="margin-bottom: 20px;">
+    <img class="showcase-img" src="assets/postgres-exporter-database.png" alt="PostgreSQL/PGVector Database Telemetry Dashboard">
+    <p style="color: var(--muted); font-size: 14px; margin-top: 10px; font-family: var(--sans);">
+      <strong>Figure 4: PGVector Database Performance Telemetry.</strong> Monitors global transactional database conditions via the Prometheus community exporter, verifying connection pool volumes, client state allocations, query handling rates, and database version status safely.
+    </p>
+  </div>
+
+</div>
+    </div>
+  </main>
+</div>
+
+</body>
+</html>

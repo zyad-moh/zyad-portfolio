@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ask &amp; Remember — Zyad Shehata</title>
+<style>
+  :root{
+    --bg:#0B1220;
+    --bg-elev:#121B2E;
+    --bg-elev-2:#17223A;
+    --line:#253147;
+    --text:#EDEAE3;
+    --muted:#8B96A8;
+    --teal:#4DD8C4;
+    --amber:#E8A33D;
+    --mono: ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    padding:60px 0;
+  }
+  
+  .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+  
+  .back-link {
+    font-family: var(--mono);
+    color: var(--muted);
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 40px;
+    text-decoration: none;
+    transition: color 0.2s;
+    cursor: pointer;
+  }
+  .back-link:hover { color: var(--teal); }
+
+  .project-idx { font-family: var(--mono); color: var(--teal); font-size: 14px; }
+  .project-title { font-family: var(--mono); font-size: clamp(32px, 5vw, 48px); font-weight: 700; margin: 8px 0 20px; }
+  
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+  .tag {
+    font-family: var(--mono); font-size: 12px; color: var(--teal);
+    background: rgba(77,216,196,0.08); padding: 6px 12px; border-radius: 2px;
+  }
+
+  .project-desc { color: var(--muted); font-size: 17px; margin-bottom: 40px; max-width: 760px; }
+  
+  .section-title {
+    font-family: var(--mono); font-size: 14px; color: var(--amber);
+    letter-spacing: 1.5px; margin: 56px 0 20px; text-transform: uppercase;
+    border-bottom: 1px solid var(--line); padding-bottom: 8px;
+  }
+
+  .feature-list { display: flex; flex-direction: column; gap: 16px; margin-bottom: 48px; }
+  .feature-item {
+    padding: 20px; background: var(--bg-elev); border: 1px solid var(--line); border-radius: 6px;
+    display: flex; gap: 16px; align-items: flex-start;
+  }
+  .feature-dot { font-family: var(--mono); color: var(--teal); font-size: 14px; font-weight: bold; }
+  .feature-text { font-size: 15px; color: var(--text); }
+  .feature-text strong { color: var(--teal); font-weight: 600; }
+
+  .media-stack { display: flex; flex-direction: column; gap: 40px; }
+  .showcase-img { width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--line); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+
+  .btn-demo {
+    display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 14px;
+    color: var(--bg); background: var(--teal); padding: 12px 24px; border-radius: 3px;
+    font-weight: 600; text-decoration: none; transition: background 0.2s;
+  }
+  .btn-demo:hover { background: #63e6d4; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <a onclick="history.back()" class="back-link">← Go Back to Portfolio</a>
+
+  <header>
+    <div class="project-idx">_04</div>
+    <h1 class="project-title">Ask &amp; Remember</h1>
+    <div class="tags">
+      <span class="tag">LangChain</span>
+      <span class="tag">LLM Agents</span>
+      <span class="tag">Groq / Llama 3.3</span>
+      <span class="tag">Streamlit</span>
+      <span class="tag">Python</span>
+    </div>
+    <p class="project-desc">
+      A conversational research assistant engineered using LangChain's ReAct agent framework. It dynamically routes queries across target APIs while maintaining multi-turn memory to resolve complex follow-up context effortlessly.
+    </p>
+
+    <a href="https://github.com/zyad-moh/agent2" target="_blank" rel="noopener" class="btn-demo">
+      View Repository on GitHub ↗
+    </a>
+  </header>
+
+  <main>
+    <div class="section-title">Agentic Execution Architecture</div>
+    
+    <div class="feature-list">
+      <div class="feature-item">
+        <span class="feature-dot">▸</span>
+        <span class="feature-text"><strong>ReAct Reasoning Loop:</strong> Drives multi-step cognitive processing using explicit Thought → Action → Observation tracking blocks, exposed to users via an interactive transparency console expansion layout.</span>
+      </div>
+      <div class="feature-item">
+        <span class="feature-dot">▸</span>
+        <span class="feature-text"><strong>Multi-Tool Routing Fabric:</strong> Intelligently analyzes and switches routing paths across isolated toolkits (Weather APIs, Currency converters, Wikipedia indices, Math engines, and live Web Search engines).</span>
+      </div>
+      <div class="feature-item">
+        <span class="feature-dot">▸</span>
+        <span class="feature-text"><strong>Short-Term Contextual Memory:</strong> Stores ongoing dialog states natively, parsing implicit contextual references (e.g., "convert that into EUR") without needing repeat baseline strings.</span>
+      </div>
+      <div class="feature-item">
+        <span class="feature-dot">▸</span>
+        <span class="feature-text"><strong>Persistent Session Control:</strong> Serializes conversation graphs locally to ensure active chat history states reload perfectly between browser lifecycles.</span>
+      </div>
+    </div>
+
+    <div class="media-stack">
+      <!-- DEMO VIDEO -->
+      <div class="section-title">Agent Interaction Walkthrough</div>
+      <video controls preload="metadata" style="width: 100%; height: auto; display: block; border-radius: 6px; border: 1px solid var(--line); box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+        <source src="assets/Video Project 6.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+
+          </div>
+  </main>
+</div>
+
+</body>
+</html>
