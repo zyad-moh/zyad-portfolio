@@ -1,0 +1,735 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI SOC Investigation Agent — Zyad Shehata</title>
+
+<style>
+  :root {
+    --bg: #0B1220;
+    --bg-elev: #121B2E;
+    --bg-elev-2: #17223A;
+    --line: #253147;
+    --text: #EDEAE3;
+    --muted: #8B96A8;
+    --teal: #4DD8C4;
+    --amber: #E8A33D;
+    --mono: ui-monospace, "SF Mono", "Cascadia Code",
+             "JetBrains Mono", Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI",
+            Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    padding: 60px 0;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .back-link {
+    font-family: var(--mono);
+    color: var(--muted);
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 40px;
+    text-decoration: none;
+    transition: color 0.2s;
+    cursor: pointer;
+  }
+
+  .back-link:hover {
+    color: var(--teal);
+  }
+
+  .project-idx {
+    font-family: var(--mono);
+    color: var(--teal);
+    font-size: 14px;
+  }
+
+  .project-title {
+    font-family: var(--mono);
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 700;
+    margin: 8px 0 20px;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 32px;
+  }
+
+  .tag {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--teal);
+    background: rgba(77,216,196,0.08);
+    padding: 6px 12px;
+    border-radius: 2px;
+  }
+
+  .project-desc {
+    color: var(--muted);
+    font-size: 17px;
+    margin-bottom: 40px;
+    max-width: 760px;
+  }
+
+  .section-title {
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--amber);
+    letter-spacing: 1.5px;
+    margin: 56px 0 20px;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 8px;
+  }
+
+  .feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+
+  .feature-item {
+    padding: 20px;
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .feature-dot {
+    font-family: var(--mono);
+    color: var(--teal);
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .feature-text {
+    font-size: 15px;
+    color: var(--text);
+  }
+
+  .feature-text strong {
+    color: var(--teal);
+    font-weight: 600;
+  }
+
+  .workflow {
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 24px;
+    margin-bottom: 40px;
+    font-family: var(--mono);
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  .workflow-step {
+    padding: 12px 16px;
+    background: var(--bg-elev-2);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    text-align: center;
+    color: var(--teal);
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+  .workflow-arrow {
+    text-align: center;
+    color: var(--amber);
+    padding: 7px 0;
+  }
+
+  .tool-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+
+  .tool-item {
+    padding: 16px 20px;
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+  }
+
+  .tool-item code {
+    color: var(--teal);
+    font-family: var(--mono);
+    font-size: 14px;
+  }
+
+  .tool-item p {
+    color: var(--muted);
+    font-size: 14px;
+    margin-top: 6px;
+  }
+
+  .scope-note {
+    color: var(--muted);
+    font-size: 14px;
+    padding: 18px 20px;
+    background: var(--bg-elev);
+    border-left: 3px solid var(--amber);
+    margin-bottom: 40px;
+  }
+
+  @media (max-width: 600px) {
+    body {
+      padding: 36px 0;
+    }
+
+    .feature-item {
+      padding: 16px;
+    }
+
+    .workflow {
+      padding: 16px;
+    }
+  }
+
+/* Investigation Run Showcase */
+
+.run-intro {
+  color: var(--muted);
+  font-size: 15px;
+  margin-bottom: 24px;
+  max-width: 760px;
+}
+
+.run-card {
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 22px;
+  margin-bottom: 18px;
+}
+
+.run-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.run-label {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--teal);
+}
+
+.run-badge {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--amber);
+  background: rgba(232,163,61,0.08);
+  padding: 5px 10px;
+  border-radius: 3px;
+}
+
+.run-card p {
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 14px;
+}
+
+.event-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.event-row {
+  display: grid;
+  grid-template-columns: 90px 1fr 1fr;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  background: var(--bg-elev-2);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.event-row span {
+  color: var(--muted);
+}
+
+.event-row strong {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.event-row code {
+  color: var(--teal);
+  font-family: var(--mono);
+}
+
+.tool-step {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tool-call {
+  background: var(--bg-elev-2);
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+
+.tool-call code {
+  color: var(--teal);
+  font-family: var(--mono);
+  font-size: 13px;
+}
+
+.tool-result {
+  padding: 14px 16px;
+  background: rgba(77,216,196,0.04);
+  border-left: 3px solid var(--teal);
+  border-radius: 2px;
+}
+
+.tool-result .result-label {
+  font-family: var(--mono);
+  color: var(--muted);
+  font-size: 11px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.result-json {
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.assessment-card {
+  background: var(--bg-elev);
+  border: 1px solid var(--teal);
+  border-radius: 6px;
+  padding: 24px;
+  margin-top: 20px;
+}
+
+.assessment-heading {
+  color: var(--teal);
+  font-family: var(--mono);
+  font-size: 14px;
+  margin-bottom: 18px;
+}
+
+.assessment-field {
+  margin-bottom: 18px;
+}
+
+.assessment-field:last-child {
+  margin-bottom: 0;
+}
+
+.assessment-field h4 {
+  font-family: var(--mono);
+  color: var(--amber);
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+.assessment-field p {
+  color: var(--text);
+  font-size: 14px;
+}
+
+.confidence {
+  display: inline-block;
+  color: var(--teal);
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 5px 10px;
+  background: rgba(77,216,196,0.08);
+  border-radius: 3px;
+}
+
+@media (max-width: 600px) {
+  .event-row {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+
+  .run-card {
+    padding: 16px;
+  }
+}
+
+</style>
+</head>
+
+<body>
+<div class="container">
+
+  <a onclick="history.back()" class="back-link">
+    ← Go Back to Portfolio
+  </a>
+
+  <header>
+    <div class="project-idx">_05</div>
+
+    <h1 class="project-title">AI SOC Investigation Agent</h1>
+
+    <div class="tags">
+      <span class="tag">Python</span>
+      <span class="tag">ReAct</span>
+      <span class="tag">Tool Calling</span>
+      <span class="tag">Phi-3 Mini</span>
+      <span class="tag">llama.cpp</span>
+      
+
+    </div>
+
+    <p class="project-desc">
+      A ReAct-based AI SOC investigation agent designed to analyze raw
+      security events, identify suspicious authentication patterns,
+      and enrich investigation findings using threat intelligence
+      and MITRE ATT&CK mapping. The agent follows a structured
+      Thought → Action → Observation loop to gather evidence
+      before producing a security assessment.
+    </p>
+
+    <!-- Add a GitHub repository button here when the repository is available. -->
+  </header>
+
+  <main>
+
+    <div class="section-title">Agentic Investigation Architecture</div>
+
+    <div class="feature-list">
+
+      <div class="feature-item">
+        <span class="feature-dot">▸</span>
+        <span class="feature-text">
+          <strong>Raw Security Event Analysis:</strong>
+          Analyzes original security events to identify suspicious
+          authentication patterns and extract relevant evidence,
+          including users, timestamps, source IPs, and event details.
+        </span>
+      </div>
+
+      <div class="feature-item">
+        <span class="feature-dot">▸</span>
+        <span class="feature-text">
+          <strong>ReAct Reasoning Loop:</strong>
+          Implements the Thought → Action → Observation pattern.
+          The agent plans its next investigation step, selects an
+          appropriate tool, and incorporates the returned observation
+          into subsequent reasoning.
+        </span>
+      </div>
+
+
+      <div class="feature-item">
+        <span class="feature-dot">▸</span>
+        <span class="feature-text">
+          <strong>Dynamic Tool Calling:</strong>
+          Selects and executes investigation tools based on the
+          current findings, allowing the agent to retrieve additional
+          evidence during the investigation.
+        </span>
+      </div>
+
+      <div class="feature-item">
+        <span class="feature-dot">▸</span>
+        <span class="feature-text">
+          <strong>Threat Intelligence Enrichment:</strong>
+          Checks suspicious IP addresses against a local threat
+          intelligence lookup dataset and retrieves reputation,
+          confidence scores, and associated threat categories.
+        </span>
+      </div>
+
+      <div class="feature-item">
+        <span class="feature-dot">▸</span>
+        <span class="feature-text">
+          <strong>MITRE ATT&CK Mapping:</strong>
+          Searches for relevant ATT&CK techniques to determine
+          whether the observed behavior is consistent with known
+          adversary tactics and techniques.
+        </span>
+      </div>
+
+      <div class="feature-item">
+        <span class="feature-dot">▸</span>
+        <span class="feature-text">
+          <strong>Evidence-Driven Assessment:</strong>
+          Correlates log analysis, threat intelligence results,
+          and MITRE ATT&CK mappings to produce structured findings.
+          Distinguishes suspicious activity from confirmed compromise
+          and provides a confidence assessment.
+        </span>
+      </div>
+
+    </div>
+
+    <div class="section-title">Investigation Workflow</div>
+
+    <div class="workflow">
+
+      <div class="workflow-step">Raw Security Events</div>
+      <div class="workflow-arrow">↓</div>
+
+      <div class="workflow-step">Security Event Analysis</div>
+      <div class="workflow-arrow">↓</div>
+
+      <div class="workflow-step">Thought — Plan the Next Step</div>
+      <div class="workflow-arrow">↓</div>
+
+      <div class="workflow-step">Action — Select and Execute a Tool</div>
+      <div class="workflow-arrow">↓</div>
+
+      <div class="workflow-step">Observation — Process Tool Results</div>
+      <div class="workflow-arrow">↓</div>
+
+      <div class="workflow-step">Further Reasoning / Additional Tool Calls</div>
+      <div class="workflow-arrow">↓</div>
+
+      <div class="workflow-step">Structured SOC Assessment</div>
+
+    </div>
+
+    <div class="section-title">Investigation Tools</div>
+
+    <div class="tool-list">
+
+      <div class="tool-item">
+        <code>look_ips(ip)</code>
+        <p>
+          Retrieves IP reputation information, confidence scores,
+          and associated threat categories from the local lookup dataset.
+        </p>
+      </div>
+
+      <div class="tool-item">
+        <code>search_mitre(query)</code>
+        <p>
+          Searches the MITRE ATT&CK lookup dataset for techniques
+          relevant to the observed behavior.
+        </p>
+      </div>
+
+    </div>
+    <div class="section-title">Example Investigation Run</div>
+
+    <p class="run-intro">
+    A sample execution demonstrating how the agent analyzes security events,
+    dynamically invokes investigation tools, incorporates their observations,
+    and generates a structured security assessment.
+    </p>
+
+    <!-- Step 1: Thought and Event Analysis -->
+    <div class="run-card">
+    <div class="run-header">
+        <span class="run-label">01 / INITIAL THOUGHT</span>
+        <span class="run-badge">Event Analysis</span>
+    </div>
+
+    <p>
+        The agent identified multiple failed login attempts targeting
+        different accounts from the same source IP within a short time window.
+    </p>
+
+    <div class="event-list">
+        <div class="event-row">
+        <code>02:14:11</code>
+        <strong>alice</strong>
+        <span>Event ID: 4625 · Failed Login</span>
+        </div>
+
+        <div class="event-row">
+        <code>02:14:18</code>
+        <strong>bob</strong>
+        <span>Event ID: 4625 · Failed Login</span>
+        </div>
+
+        <div class="event-row">
+        <code>02:14:25</code>
+        <strong>charlie</strong>
+        <span>Event ID: 4625 · Failed Login</span>
+        </div>
+
+        <div class="event-row">
+        <code>02:14:32</code>
+        <strong>david</strong>
+        <span>Event ID: 4625 · Failed Login</span>
+        </div>
+    </div>
+
+    <div style="margin-top: 18px;">
+        <p>
+        <strong style="color: var(--teal);">Source IP:</strong>
+        91.204.17.33
+        </p>
+        <p>
+        <strong style="color: var(--teal);">Suspected Behavior:</strong>
+        Possible Password Spraying
+        </p>
+        <p>
+        <strong style="color: var(--teal);">Observed Time Window:</strong>
+        21 seconds
+        </p>
+    </div>
+    </div>
+
+    <!-- Step 2: Threat Intelligence -->
+    <div class="run-card">
+    <div class="run-header">
+        <span class="run-label">02 / ACTION & OBSERVATION</span>
+        <span class="run-badge">Threat Intelligence</span>
+    </div>
+
+    <div class="tool-step">
+        <div class="tool-call">
+        <code>Action: look_ips(ip="91.204.17.33")</code>
+        </div>
+
+        <div class="tool-result">
+        <div class="result-label">Tool Observation</div>
+        <pre class="result-json">{
+    "reputation": "suspicious",
+    "confidence": 0.78,
+    "categories": [
+        "password_spraying"
+    ]
+    }</pre>
+        </div>
+    </div>
+
+    <p style="margin-top: 16px; margin-bottom: 0;">
+        The agent incorporated the IP reputation result and identified
+        a correlation between the threat intelligence category and
+        the observed authentication pattern.
+    </p>
+    </div>
+
+    <!-- Step 3: MITRE ATT&CK -->
+    <div class="run-card">
+    <div class="run-header">
+        <span class="run-label">03 / ACTION & OBSERVATION</span>
+        <span class="run-badge">MITRE ATT&CK Mapping</span>
+    </div>
+
+    <div class="tool-step">
+        <div class="tool-call">
+        <code>Action: search_mitre(query="password spraying")</code>
+        </div>
+
+        <div class="tool-result">
+        <div class="result-label">Tool Observation</div>
+        <pre class="result-json">[
+    {
+        "id": "T1110.003",
+        "name": "Password Spraying",
+        "description": "Adversaries may use a single password
+        against many different accounts to attempt to gain
+        access to valid accounts."
+    }
+    ]</pre>
+        </div>
+    </div>
+
+    <p style="margin-top: 16px; margin-bottom: 0;">
+        The retrieved ATT&CK technique provides a relevant behavioral
+        mapping for the observed activity.
+    </p>
+    </div>
+
+    <!-- Step 4: Final Assessment -->
+    <div class="section-title">Final SOC Assessment</div>
+
+    <div class="assessment-card">
+    <div class="assessment-heading">
+        INVESTIGATION RESULT
+    </div>
+
+    <div class="assessment-field">
+        <h4>Correlation</h4>
+        <p>
+        Four failed login attempts targeted different accounts
+        (alice, bob, charlie, david) from the same IP address
+        (91.204.17.33) within 21 seconds. Threat intelligence
+        returned a suspicious reputation with a confidence score
+        of 0.78 and a password_spraying category. MITRE ATT&CK
+        returned T1110.003 (Password Spraying), consistent with
+        the observed behavior.
+        </p>
+    </div>
+
+    <div class="assessment-field">
+        <h4>Conflicts</h4>
+        <p>
+        No conflicts were identified between the log analysis,
+        threat intelligence result, and MITRE ATT&CK mapping.
+        </p>
+    </div>
+
+    <div class="assessment-field">
+        <h4>Assessment</h4>
+        <p>
+        Possible password spraying activity originating from
+        91.204.17.33. All observed login attempts failed,
+        so no successful compromise is evident in the provided data.
+        </p>
+    </div>
+
+    <div class="assessment-field">
+        <h4>Recommendations</h4>
+        <p>
+        Monitor or investigate the source IP, enforce MFA,
+        and review account lockout policies.
+        </p>
+    </div>
+
+    <div class="assessment-field">
+        <h4>Confidence</h4>
+        <span class="confidence">High</span>
+    </div>
+    </div>
+    
+
+  </main>
+</div>
+</body>
+</html>
