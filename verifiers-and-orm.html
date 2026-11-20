@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLM Verifiers &amp; Outcome Reward Model — Zyad Shehata</title>
+<style>
+:root{--bg:#0B1220;--elev:#121B2E;--elev2:#17223A;--line:#253147;--text:#EDEAE3;--muted:#8B96A8;--teal:#4DD8C4;--amber:#E8A33D;--mono:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.65;-webkit-font-smoothing:antialiased;padding:60px 0}.container{max-width:900px;margin:auto;padding:0 24px}
+.back-link{font:13px var(--mono);color:var(--muted);display:inline-flex;margin-bottom:40px;text-decoration:none}.back-link:hover{color:var(--teal)}
+.project-idx{font:14px var(--mono);color:var(--teal)}.project-title{font:700 clamp(30px,5vw,45px)/1.2 var(--mono);margin:10px 0 20px}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:30px}.tag{font:12px var(--mono);color:var(--teal);background:#4dd8c414;border:1px solid #4dd8c420;padding:5px 11px;border-radius:2px}
+.project-desc{color:var(--muted);font-size:17px;margin-bottom:26px;max-width:790px}.notice{border:1px solid var(--line);border-left:3px solid var(--amber);background:var(--elev);color:var(--muted);padding:15px 18px;font-size:14px;margin:26px 0;border-radius:4px}.notice strong{color:var(--amber)}
+.section-title{font:14px var(--mono);color:var(--amber);letter-spacing:1.5px;margin:58px 0 20px;text-transform:uppercase;border-bottom:1px solid var(--line);padding-bottom:8px}
+.feature-list{display:flex;flex-direction:column;gap:14px;margin-bottom:34px}.feature-item{padding:19px 20px;background:var(--elev);border:1px solid var(--line);border-radius:6px;display:flex;gap:14px}.feature-dot{font: bold 14px var(--mono);color:var(--teal)}.feature-text{font-size:15px}.feature-text strong{color:var(--teal)}
+.pipeline,.code{background:var(--elev);border:1px solid var(--line);border-radius:6px;padding:22px;margin:20px 0 30px;overflow-x:auto}.pipeline pre,.code{color:var(--teal);font:13px/1.8 var(--mono);white-space:pre}
+.pipeline-caption,.body-copy{color:var(--muted);font-size:14px;margin:12px 0 18px}.body-copy strong{color:var(--text)}
+.metric-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}.metric,.info-card{background:var(--elev);border:1px solid var(--line);border-radius:6px;padding:18px}.metric-value{color:var(--teal);font:700 27px var(--mono)}.metric-label{color:var(--muted);font-size:12px;margin-top:5px}
+table{width:100%;border-collapse:collapse;margin:20px 0 26px;background:var(--elev);border:1px solid var(--line);border-radius:6px;overflow:hidden}th,td{padding:12px 15px;text-align:left;font-size:14px;border-bottom:1px solid var(--line)}th{background:var(--elev2);font:normal 13px var(--mono);color:var(--amber)}td.mono-cell{font-family:var(--mono);color:var(--teal)}tr:last-child td{border:0}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}.info-card h3{font:14px var(--mono);color:var(--teal);margin-bottom:8px}.info-card p{color:var(--muted);font-size:14px}
+.caveat-list{padding-left:20px;color:var(--muted);font-size:14px}.caveat-list li{margin:9px 0}.caveat-list strong{color:var(--text)}
+.footer{border-top:1px solid var(--line);margin-top:60px;padding-top:20px;color:var(--muted);font:12px var(--mono)}
+.btn-demo {
+    display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 14px;
+    color: var(--bg); background: var(--teal); padding: 12px 24px; border-radius: 3px;
+    font-weight: 600; text-decoration: none; transition: background 0.2s;
+  }
+  .btn-demo:hover { background: #63e6d4; }
+@media(max-width:640px){body{padding:34px 0}.container{padding:0 18px}.metric-grid{grid-template-columns:1fr 1fr}.two-col{grid-template-columns:1fr}th,td{padding:10px;font-size:12px}.project-desc{font-size:15px}}
+</style>
+</head>
+<body><div class="container">
+<a onclick="history.back()" class="back-link">← Go Back to Portfolio</a>
+<header>
+<div class="project-idx">_07</div>
+<h1 class="project-title">LLM Verifiers &amp; Outcome Reward Model</h1>
+<div class="tags">
+<span class="tag">Phi-3-mini</span><span class="tag">GSM8K</span><span class="tag">LLM Verification</span><span class="tag">ORM</span><span class="tag">PyTorch</span><span class="tag">Hugging Face</span>
+</div>
+<p class="project-desc">An end-to-end experimentation project exploring inference-time verification for mathematical reasoning. Using Phi-3-mini on GSM8K, the workflow evaluates sampling-based methods, constructs a labeled solution dataset, and trains an Outcome Reward Model (ORM) to score and rank candidate solutions.</p>
+<a href="https://github.com/zyad-moh/Verifiers-and-ORM" target="_blank" rel="noopener" class="btn-demo" style="margin-top: 0; display: inline-flex; align-items: center; gap: 8px;">
+      View Repository on GitHub ↗
+    </a>
+<div class="notice"><strong>Experimental scope:</strong> This is a learning and experimentation project, not a benchmark claim. The ORM dataset contains 100 questions and 400 candidate solutions, so reported evaluation results should be interpreted in the context of this small sample.</div>
+<!-- Add your repository URL when available:
+<a href="YOUR_GITHUB_REPOSITORY_URL" target="_blank" rel="noopener" class="btn-demo">View Source &amp; Notebooks ↗</a>
+-->
+</header>
+<main>
+<div class="section-title">Project Objectives</div>
+<div class="feature-list">
+<div class="feature-item"><span class="feature-dot">▸</span><span class="feature-text"><strong>Evaluate the base model:</strong> Establish a greedy-decoding baseline on GSM8K and inspect how reliably Phi-3-mini solves mathematical reasoning problems.</span></div>
+<div class="feature-item"><span class="feature-dot">▸</span><span class="feature-text"><strong>Explore inference-time verification:</strong> Experiment with pass@N, majority voting (self-consistency), and an LLM-as-a-judge setup.</span></div>
+<div class="feature-item"><span class="feature-dot">▸</span><span class="feature-text"><strong>Build an ORM dataset:</strong> Generate four candidate solutions per question and label each candidate by comparing its extracted final answer with the GSM8K ground truth.</span></div>
+<div class="feature-item"><span class="feature-dot">▸</span><span class="feature-text"><strong>Train and evaluate a verifier:</strong> Train a lightweight classification head over a frozen Phi-3-mini backbone, address class imbalance, tune the threshold on validation data, and evaluate ranking with Best-of-4.</span></div>
+</div>
+<div class="section-title">End-to-End Workflow</div>
+<div class="pipeline"><pre>
+GSM8K Questions
+      |
+      v
+Phi-3-mini Baseline
+      |
+      v
+Inference-Time Verification
+  |          |             |
+pass@N   Majority Vote   LLM-as-a-Judge
+      |
+      v
+Generate 4 Candidate Solutions / Question
+      |
+      v
+Extract Final Answer + Compare with Ground Truth
+      |
+      v
+Labeled ORM Dataset (question, solution, label)
+      |
+      v
+Frozen Phi-3 Backbone + Linear Classification Head
+      |
+      v
+Class-Weighted Training + Validation Threshold Tuning
+      |
+      v
+Candidate Scoring --> Best-of-4 Selection
+</pre><p class="pipeline-caption">Run order: verification experiments and dataset construction first, followed by ORM training and evaluation.</p></div>
+<div class="section-title">Inference-Time Verification Experiments</div>
+<table><thead><tr><th>Technique</th><th>Experimental setup</th><th>Observed result</th></tr></thead><tbody>
+<tr><td class="mono-cell">pass@N</td><td>4 sampled solutions per question, temperature 0.7; first 10 questions</td><td>A question missed by greedy decoding (Q9) was solved correctly in 2 of 4 samples.</td></tr>
+<tr><td class="mono-cell">Majority Voting</td><td>8 samples per question; most frequent extracted final answer wins</td><td>All 10 evaluated final answers matched the ground truth.</td></tr>
+<tr><td class="mono-cell">LLM-as-a-Judge</td><td>Phi-3-mini prompted to return YES/NO for candidate correctness</td><td>Responses did not consistently follow the requested YES/NO format, limiting reliability in this setup.</td></tr>
+</tbody></table>
+<p class="body-copy">In the initial greedy baseline, Phi-3-mini produced 4 incorrect answers among the first 50 GSM8K questions. The experiments explored whether multiple samples or a separate judging step could improve answer selection.</p>
+<div class="section-title">ORM Dataset Construction</div>
+<p class="body-copy">Four sampled solutions were generated for each of the first 100 questions in the GSM8K training split. Each extracted final answer was compared with the ground-truth answer. The label represents outcome correctness, not step-by-step reasoning quality.</p>
+<div class="code">{"question": "...", "solution": "...", "label": 1}</div>
+<div class="metric-grid">
+<div class="metric"><div class="metric-value">100</div><div class="metric-label">GSM8K questions</div></div>
+<div class="metric"><div class="metric-value">400</div><div class="metric-label">Candidate solutions</div></div>
+<div class="metric"><div class="metric-value">323 / 77</div><div class="metric-label">Correct / incorrect labels</div></div>
+</div>
+<div class="section-title">ORM Architecture</div>
+<div class="pipeline"><pre>
+Question + Candidate Solution
+          |
+          v
+Chat Template + Tokenizer
+          |
+          v
+Phi-3-mini (Frozen Backbone)
+          |
+          v
+Last-Layer Hidden States [batch, sequence, 3072]
+          |
+          v
+Masked Mean Pooling
+          |
+          v
+Linear(3072 -> 1)
+          |
+          v
+Logit -> Sigmoid -> P(solution is correct)
+          |
+          v
+BCEWithLogitsLoss
+</pre></div>
+<div class="feature-list">
+<div class="feature-item"><span class="feature-dot">▸</span><span class="feature-text"><strong>Frozen language model:</strong> Phi-3-mini-4k-instruct provides contextual representations; its backbone parameters remain frozen during ORM training.</span></div>
+<div class="feature-item"><span class="feature-dot">▸</span><span class="feature-text"><strong>Masked mean pooling:</strong> Last-layer token representations are averaged while the attention mask excludes padding tokens, producing one 3,072-dimensional vector per candidate.</span></div>
+<div class="feature-item"><span class="feature-dot">▸</span><span class="feature-text"><strong>Lightweight trainable head:</strong> A Linear(3072 → 1) layer contains 3,073 trainable parameters and predicts a correctness logit for each question–solution pair.</span></div>
+<div class="feature-item"><span class="feature-dot">▸</span><span class="feature-text"><strong>Training setup:</strong> The classifier head is optimized with AdamW and BCEWithLogitsLoss. The notebook checks tokenization, forward pass, pooling, loss, and an optimizer step before full training.</span></div>
+</div>
+<div class="section-title">Data Splitting &amp; Imbalance Handling</div>
+<p class="body-copy">An initial sequential split produced a heavily skewed validation set, making accuracy misleading. The data was then split at question level so all four candidates belonging to a question remain in the same partition. Questions were stratified by the number of incorrect candidates, using random seed 42.</p>
+<table><thead><tr><th>Split</th><th>Questions</th><th>Rows</th><th>Correct</th><th>Incorrect</th></tr></thead><tbody>
+<tr><td>Train</td><td>75</td><td>300</td><td>244</td><td>56</td></tr><tr><td>Validation</td><td>12</td><td>48</td><td>39</td><td>9</td></tr><tr><td>Test</td><td>13</td><td>52</td><td>40</td><td>12</td></tr>
+</tbody></table>
+<div class="two-col">
+<div class="info-card"><h3>Plain BCE</h3><p>The model initially favored the majority correct class. On the question-level validation split, it classified all 9 incorrect candidates as correct.</p></div>
+<div class="info-card"><h3>Class-Weighted BCE</h3><p>The per-sample loss for label 0 (incorrect) was weighted by 244/56 ≈ 4.36, while label 1 retained a weight of 1.0.</p></div>
+</div>
+<div class="section-title">Evaluation Results</div>
+<p class="body-copy">The decision threshold was tuned using the validation set only. A threshold of 0.4 gave the best validation Macro F1 among the tested thresholds and was then used for final test evaluation.</p>
+<table><thead><tr><th>Validation setup</th><th>Accuracy</th><th>Incorrect F1</th><th>Macro F1</th></tr></thead><tbody>
+<tr><td>Plain BCE</td><td>81.2%</td><td>0.0%</td><td>44.8%</td></tr>
+<tr><td>Weighted BCE, threshold 0.5</td><td>85.4%</td><td>58.8%</td><td>75.0%</td></tr>
+<tr><td>Weighted BCE, threshold 0.4</td><td>87.5%</td><td>62.5%</td><td>77.5%</td></tr>
+</tbody></table>
+<div class="metric-grid">
+<div class="metric"><div class="metric-value">78.8%</div><div class="metric-label">Test classification accuracy · threshold 0.4</div></div>
+<div class="metric"><div class="metric-value">100%</div><div class="metric-label">Best-of-4 selection · 13 of 13 test questions</div></div>
+<div class="metric"><div class="metric-value">0.57</div><div class="metric-label">Approximate test Macro F1</div></div>
+</div>
+<div class="two-col">
+<div class="info-card"><h3>Classification</h3><p>Evaluates whether each candidate's predicted probability falls on the correct side of the selected threshold.</p></div>
+<div class="info-card"><h3>Best-of-4 Ranking</h3><p>Scores the four candidates for a question and selects the highest-scoring one. This evaluates candidate selection rather than threshold-based classification.</p></div>
+</div>
+<div class="section-title">Limitations &amp; Interpretation</div>
+<ul class="caveat-list">
+<li><strong>Small evaluation set:</strong> The test set contains only 13 questions and 52 candidate solutions, including questions where all four candidates are already correct.</li>
+<li><strong>Best-of-4 result:</strong> The 13/13 result is encouraging but optimistic; the mixed-candidate subset is a more informative check, and a larger test set is needed.</li>
+<li><strong>Limited generalization:</strong> The same 100 questions provide the ORM training and evaluation partitions, and Phi-3-mini is also the candidate generator. These experiments do not establish generalization to other models or problem distributions.</li>
+<li><strong>Outcome-level supervision:</strong> The ORM is trained on complete candidate solutions labeled by final-answer correctness. It is not a Process Reward Model (PRM) and does not provide step-level reasoning verification.</li>
+</ul>
+<div class="section-title">Repository Structure</div>
+<table><thead><tr><th>Notebook</th><th>Purpose</th></tr></thead><tbody>
+<tr><td class="mono-cell">verifiers_and_build_orm_data.ipynb</td><td>Baseline evaluation, verification experiments, and ORM dataset construction.</td></tr>
+<tr><td class="mono-cell">ORM.ipynb</td><td>ORM architecture, training, imbalance handling, threshold tuning, and evaluation.</td></tr>
+</tbody></table>
+<p class="body-copy"><strong>Run order:</strong> <span style="color:var(--teal);font-family:var(--mono)">verifiers_and_build_orm_data.ipynb → ORM.ipynb</span></p>
+</main>
+<div class="footer">LLM REASONING &amp; VERIFICATION · PHI-3-MINI · GSM8K</div>
+</div></body></html>
